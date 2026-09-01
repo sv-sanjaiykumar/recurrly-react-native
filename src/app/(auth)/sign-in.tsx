@@ -1,6 +1,10 @@
 import { View, Text } from 'react-native'
 import { Link } from 'expo-router';
 
+/**
+ * Sign-in screen component that handles user authentication.
+ * Provides login form and link to account creation.
+ */
 const Signin = () => {
   return (
     <View>

@@ -5,7 +5,11 @@ import { styled } from "nativewind";
 import { SafeAreaView as RNSafeAreaView} from "react-native-safe-area-context";
 
 const SafeAreaView = styled(RNSafeAreaView);
- 
+
+/**
+ * Home screen component that serves as the main landing page.
+ * Provides navigation links to onboarding and authentication screens.
+ */
 export default function App() {
   return (
     <SafeAreaView className = "flex-1 bg-background p-5">

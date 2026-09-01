@@ -8,8 +8,16 @@ import { colors , components } from "@/constants/theme";
 
 const tabBar = components.tabBar;
 
+/**
+ * Tab layout component that provides bottom tab navigation for the main app screens.
+ * Renders custom styled tabs with icons for Home, Subscription, Insights, and Settings.
+ */
 const TabLayout = () => {
     const insets = useSafeAreaInsets();
+    /**
+     * Renders an individual tab icon with focus state styling.
+     * @param {TabIconProps} props - Contains focused state and icon image source
+     */
     const TabIcon = ({ focused, icon }: TabIconProps) => {
         return (
                 <View className = "tabs-icon">
