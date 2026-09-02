@@ -7,6 +7,8 @@ import { useEffect } from "react";
  * Root layout component that loads custom fonts and manages the splash screen.
  * Initializes Plus Jakarta Sans font family with multiple weights for use throughout the app.
  */
+SplashScreen.preventAutoHideAsync();
+
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
     'sans-regular': require("../../assets/fonts/PlusJakartaSans-Regular.ttf"),
