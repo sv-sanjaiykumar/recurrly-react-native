@@ -4,6 +4,10 @@ import { SafeAreaView as RNSafeAreaView} from "react-native-safe-area-context";
 
 const SafeAreaView = styled(RNSafeAreaView);
 
+/**
+ * Insights screen component that provides analytics and usage statistics.
+ * Displays spending patterns and subscription insights for the user.
+ */
 const insights = () => {
   return (
     <SafeAreaView className="flex-1 bg-background p-5">

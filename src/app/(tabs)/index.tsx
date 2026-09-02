@@ -1,21 +1,73 @@
+import { HOME_BALANCE, HOME_SUBSCRIPTIONS, HOME_USER, UPCOMING_SUBSCRIPTIONS } from "@/constants/data";
+import { icons } from "@/constants/icons";
+import image from "@/constants/image";
 import "@/global.css";
-import { Link } from "expo-router";
-import { Text } from "react-native";
+import dayjs from "dayjs";
 import { styled } from "nativewind";
-import { SafeAreaView as RNSafeAreaView} from "react-native-safe-area-context";
+import { FlatList, Image, Text, View } from "react-native";
+import { SafeAreaView as RNSafeAreaView } from "react-native-safe-area-context";
+import ListHeading from "../../../components/ListHeading";
+import UpcomingSubscriptionCard from "../../../components/UpcomingSubscriptionCard";
+import { formatCurrency } from "../../../lib/utils";
+import SubscriptionCard from "../../../components/SubscriptionCard";
+import { useState } from "react";
 
 const SafeAreaView = styled(RNSafeAreaView);
- 
+
 export default function App() {
+  const [expandedSubscriptionId, setExpandedSubscriptionId] = useState<string | null>(null);
   return (
-    <SafeAreaView className = "flex-1 bg-background p-5">
-      <Text className="font-sans-extrabold text-5xl text-primary">
-        Home
-      </Text>
-      <Link href = "/onboarding" className = "mt-4 rounded font-sans-bold bg-primary text-white p-4">Go to Onboarding</Link>
-      <Link href = "/(auth)/sign-in" className = "mt-4 rounded font-sans-bold bg-primary text-white p-4">Go to Sign in</Link>
-      <Link href = "/(auth)/sign-up" className = "mt-4 rounded font-sans-bold bg-primary text-white p-4">Go to Sign up</Link>
-      
+    <SafeAreaView className="flex-1 bg-background p-5">
+        <FlatList
+          ListHeaderComponent={() => (
+            <>
+              <View className="home-header">
+                <View className="home-user">
+                  <Image source={image.avatar} className="home-avatar" />
+                  <Text className="home-user-name">{HOME_USER.name}</Text>
+                </View>
+                <Image source={icons.add} className="home-add-icon" />
+              </View>
+
+              <View className="home-balance-card">
+                <Text className="home-balance-lable">Balance</Text>
+                <View className="home-balance-row">
+                  <Text className="home-balance-amount">{formatCurrency(HOME_BALANCE.amount)}</Text>
+                  <Text className="home-balance-date">{dayjs(HOME_BALANCE.nextRenewalDate).format('MM/DD')}</Text>
+                </View>
+              </View>
+
+              <View className = "mb-5">
+                <ListHeading title="Upcoming" />
+                {/* <UpcomingSubscriptionCard  data = {UPCOMING_SUBSCRIPTIONS[0]}/> */}
+                <FlatList
+                  data={UPCOMING_SUBSCRIPTIONS}
+                  renderItem={({ item }) => (<UpcomingSubscriptionCard {...item} />)}
+                  keyExtractor={(item) => item.id}
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  ListEmptyComponent={<Text className="home-empty-state">No upcoming subscriptions.</Text>}
+                />
+              </View>
+
+              <ListHeading title="Subscriptions" />
+            </>
+          )}
+          data={HOME_SUBSCRIPTIONS}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <SubscriptionCard
+              {...item}
+              expanded={expandedSubscriptionId === item.id}
+              onPress={() => setExpandedSubscriptionId((currentId) => (currentId === item.id ? null : item.id))}
+            />
+          )}
+          extraData={expandedSubscriptionId}
+          ItemSeparatorComponent={() => <View className="h-4" />}
+          showsVerticalScrollIndicator={false}
+          ListEmptyComponent={<Text className="home-empty-state">No Subscription yet</Text>}
+          contentContainerClassName="pb-30"
+        />
     </SafeAreaView>
   );
 }
