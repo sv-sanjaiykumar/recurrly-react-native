@@ -1,10 +1,10 @@
-import { Tabs } from "expo-router";
 import { tabs } from "@/constants/data";
-import { View } from "react-native";
-import { Image } from "react-native";
-import clsx from "clsx"
-import { useSafeAreaInsets } from "react-native-safe-area-context"
-import { colors , components } from "@/constants/theme";
+import { colors, components } from "@/constants/theme";
+import { useAuth } from "@clerk/expo";
+import clsx from "clsx";
+import { Redirect, Tabs } from "expo-router";
+import { Image, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const tabBar = components.tabBar;
 
@@ -13,7 +13,16 @@ const tabBar = components.tabBar;
  * Renders custom styled tabs with icons for Home, Subscription, Insights, and Settings.
  */
 const TabLayout = () => {
+    const { isLoaded, isSignedIn } = useAuth();
     const insets = useSafeAreaInsets();
+
+    if (!isLoaded) {
+        return null;
+    }
+
+    if (!isSignedIn) {
+        return <Redirect href="/(auth)/sign-in" />;
+    }
     /**
      * Renders an individual tab icon with focus state styling.
      * @param {TabIconProps} props - Contains focused state and icon image source

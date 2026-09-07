@@ -1,13 +1,8 @@
-import "@/global.css";
 import { useAuth } from "@clerk/expo";
-import { Redirect, Stack } from "expo-router";
+import { Redirect } from "expo-router";
 import { ActivityIndicator, Text, View } from "react-native";
 
-/**
- * Authentication layout component that provides navigation structure for auth screens.
- * Configures stack navigation for sign-in and sign-up flows.
- */
-export default function RootLayout() {
+export default function Index() {
   const { isLoaded, isSignedIn } = useAuth();
 
   if (!isLoaded) {
@@ -19,9 +14,5 @@ export default function RootLayout() {
     );
   }
 
-  if (isSignedIn) {
-    return <Redirect href="/(tabs)" />;
-  }
-
-  return <Stack screenOptions={{ headerShown: false }} />;
+  return <Redirect href={isSignedIn ? "/(tabs)" : "/(auth)/sign-in"} />;
 }
