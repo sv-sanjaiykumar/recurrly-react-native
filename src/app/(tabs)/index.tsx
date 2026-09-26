@@ -4,13 +4,13 @@ import image from "@/constants/image";
 import "@/global.css";
 import dayjs from "dayjs";
 import { styled } from "nativewind";
+import { useState } from "react";
 import { FlatList, Image, Text, View } from "react-native";
 import { SafeAreaView as RNSafeAreaView } from "react-native-safe-area-context";
 import ListHeading from "../../../components/ListHeading";
+import SubscriptionCard from "../../../components/SubscriptionCard";
 import UpcomingSubscriptionCard from "../../../components/UpcomingSubscriptionCard";
 import { formatCurrency } from "../../../lib/utils";
-import SubscriptionCard from "../../../components/SubscriptionCard";
-import { useState } from "react";
 
 const SafeAreaView = styled(RNSafeAreaView);
 
@@ -26,11 +26,13 @@ export default function App() {
                   <Image source={image.avatar} className="home-avatar" />
                   <Text className="home-user-name">{HOME_USER.name}</Text>
                 </View>
-                <Image source={icons.add} className="home-add-icon" />
+                <View>
+                  <Image source={icons.plus} className="home-action-icon" resizeMode="contain" />
+                </View>
               </View>
 
               <View className="home-balance-card">
-                <Text className="home-balance-lable">Balance</Text>
+                <Text className="home-balance-label">Balance</Text>
                 <View className="home-balance-row">
                   <Text className="home-balance-amount">{formatCurrency(HOME_BALANCE.amount)}</Text>
                   <Text className="home-balance-date">{dayjs(HOME_BALANCE.nextRenewalDate).format('MM/DD')}</Text>
